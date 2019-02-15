@@ -1,13 +1,16 @@
 import serial
 
-defaultPort = '/dev/tty.SLAB_USBtoUART' #Default for macOS, Linux is /dev/ttyUSB
+
+# Default for macOS, Linux is /dev/ttyUSB
+defaultPort = '/dev/tty.SLAB_USBtoUART'
 
 
 class MHZ14Reader:
     """
     Simple sensor communication class.
-    No calibration method provided by default to avoid accidental sensor bricking (calibrating to wrong levels)
-    """
+    No calibration method provided by default to avoid accidental sensor
+    bricking (calibrating to wrong levels)
+    
 
     # Possible commands
     # mhzCmdReadPPM[9] = [0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
@@ -28,6 +31,7 @@ class MHZ14Reader:
 
     # Disable ABC, run with --single
     # _requestSequence = [0xFF, 0x01, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x86]
+    """
 
     # Standard operation
     _requestSequence = [0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
@@ -53,8 +57,10 @@ class MHZ14Reader:
         """
         if self.link is not None:
             self.disconnect()
-        self.link = serial.Serial(self.port, 9600, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE,
-                                  stopbits=serial.STOPBITS_ONE, dsrdtr=True, timeout=5, interCharTimeout=0.1)
+        self.link = serial.Serial(self.port, 9600, bytesize=serial.EIGHTBITS,
+                                  parity=serial.PARITY_NONE,
+                                  stopbits=serial.STOPBITS_ONE, dsrdtr=True,
+                                  timeout=5, interCharTimeout=0.1)
 
     def disconnect(self):
         """
@@ -68,7 +74,7 @@ class MHZ14Reader:
         Send data request control sequence
         """
         for byte in self._requestSequence:
-            self.link.write(chr(byte))
+            self.link.write(byte)
 
     def get_status(self):
         """
@@ -78,7 +84,10 @@ class MHZ14Reader:
         self._send_data_request()
         response = self.link.read(9)
         if len(response) == 9:
-            return {"ppa": ord(response[2]) * 0xff + ord(response[3]), "t": ord(response[4])}
+            return {
+                "ppa": ord(response[2]) * 0xff + ord(response[3]),
+                "t": ord(response[4]),
+            }
         return None
 
 
@@ -87,9 +96,13 @@ if __name__ == "__main__":
     import sys
     import argparse
 
-    parser = argparse.ArgumentParser(description='Read data from MH-Z14 CO2 sensor.')
-    parser.add_argument('tty', default=defaultPort, help='tty port to connect', type=str, nargs='?')
-    parser.add_argument('timeout', default=10, help='timeout between requests', type=int, nargs='?')
+    parser = argparse.ArgumentParser(
+        description='Read data from MH-Z14 CO2 sensor.'
+    )
+    parser.add_argument('tty', default=defaultPort, help='tty port to connect',
+                        type=str, nargs='?')
+    parser.add_argument('timeout', default=10, help='timeout between requests',
+                        type=int, nargs='?')
     parser.add_argument('--single', action='store_true', help='single measure')
     parser.add_argument('--quit', '-q', action='store_true', help='be quit')
     args = parser.parse_args()
@@ -100,13 +113,19 @@ if __name__ == "__main__":
 
     conn = MHZ14Reader(port)
     if not args.quit:
-        sys.stderr.write("Connected to %s\n" % conn.link.name)
+        sys.stderr.write("Connected to %s\n".format(conn.link.name))
     while True:
         status = conn.get_status()
         if status:
-            print "%s\t%d\t%d" % (time.strftime("%Y-%m-%d %H:%M:%S"), status["ppa"], status["t"])
+            print(
+                "{}\t{}\t{}".format(
+                    time.strftime("%Y-%m-%d %H:%M:%S"),
+                    status["ppa"],
+                    status["t"]
+                )
+            )
         else:
-            print "No data received"
+            print("No data received")
         sys.stdout.flush()
         if timeout != 0:
             time.sleep(timeout)
