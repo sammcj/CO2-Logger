@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
     conn = MHZ14Reader(port)
     if not args.quit:
-        sys.stderr.write("Connected to %s\n".format(conn.link.name))
+        sys.stderr.write("Connected to {}\n".format(conn.link.name))
     while True:
         status = conn.get_status()
         if status:
