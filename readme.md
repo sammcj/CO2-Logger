@@ -3,10 +3,6 @@
 * Read data from UART(serial)-connected MH-Z14 or MH-Z19 sensor using python.
 * visualise received data using html and plotly.js library.
 
-## Screenshot of example data
-
-![plot](https://user-images.githubusercontent.com/862951/52826593-a98a5400-3115-11e9-868a-72a763b6d587.jpg)
-
 ## Usage
 
 ### Connection
@@ -83,11 +79,18 @@ python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
 
 ## Photos
 
-Connected to a USB -> UART adapter:
+
+### Example plotted data
+
+![plot](https://user-images.githubusercontent.com/862951/52826593-a98a5400-3115-11e9-868a-72a763b6d587.jpg)
+
+### Connected to a USB -> UART adapter
 
 ![mhz-19](https://user-images.githubusercontent.com/862951/52826018-38e23800-3113-11e9-92f3-18c99c902ae5.jpg)
 
-Outdoor calibration (with average CO2 in Australia of around 400-410PPM and Sensor zero point at 400PPM):
+### Outdoor calibration
+
+(Australia has an average of around 400-410PPM and Sensor zero point is 400PPM)
 
 ![mhz - calibration](https://user-images.githubusercontent.com/862951/52827251-21597e00-3118-11e9-9ebc-ddbbc9fb02a8.jpg)
 
