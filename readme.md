@@ -32,11 +32,14 @@ Connected to /dev/tty.SLAB_USBtoUART
 2019-02-15 11:02:17	470	64
 ...
 ```
-3 fields separated by tab: timestamp, CO2 concentration (ppm), internal sensor temperature (celsius?)
+3 fields separated by tab: timestamp, CO2 concentration (ppm), internal sensor temperature (fahrenheit)
  
-Use stream redirection to save data series to file.
+Use stream redirection to save data series to file:
 
-`$ python CO2Reader.py /dev/ttyUSB0 >example.log`
+```shell
+touch example.log
+python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
+```
 
 #### Options
 
