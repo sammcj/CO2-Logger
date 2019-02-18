@@ -10,7 +10,6 @@ class MHZ14Reader:
     Simple sensor communication class.
     No calibration method provided by default to avoid accidental sensor
     bricking (calibrating to wrong levels)
-    
 
     # Possible commands
     # mhzCmdReadPPM[9] = [0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
@@ -73,8 +72,7 @@ class MHZ14Reader:
         """
         Send data request control sequence
         """
-        for byte in self._requestSequence:
-            self.link.write(byte)
+        self.link.write(bytearray(self._requestSequence))
 
     def get_status(self):
         """
@@ -85,8 +83,8 @@ class MHZ14Reader:
         response = self.link.read(9)
         if len(response) == 9:
             return {
-                "ppa": ord(response[2]) * 0xff + ord(response[3]),
-                "t": ord(response[4]),
+                "ppa": response[2] * 0xff + response[3],
+                "t": response[4],
             }
         return None
 
