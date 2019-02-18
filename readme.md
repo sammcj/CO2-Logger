@@ -13,14 +13,14 @@ Can be connected to computer using almost any USB-UART converter if voltage matc
 
 ### Requirements
 
-- Python2 (Python3 support comming)
-- `pip2 install serial pyserial`
+- Python3
+- `pip3 install serial pyserial`
 - A USB -> Serial UART connector or similar
 
 ### Querying
 
 ```
-$ python2 CO2Reader.py /dev/tty.SLAB_USBtoUART 2
+$ python3 CO2Reader.py /dev/tty.SLAB_USBtoUART 2
 Connected to /dev/tty.SLAB_USBtoUART
 2019-02-15 11:02:11	463	64
 2019-02-15 11:02:13	467	64
@@ -34,7 +34,7 @@ Use stream redirection to save data series to file:
 
 ```shell
 touch example.log
-python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
+python3 CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
 ```
 
 #### Options
@@ -44,8 +44,8 @@ python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
 ### Visualizing
 
 * install npm dependencies `npm install`
-* start server `python2 -m SimpleHTTPServer 8088`
-* open browser at http://localhost:8088/plot.html - WARNING: Make sure your machine is firewalled or anyone could access the directory
+* start server `python3 -m http.server 8088 --bind 127.0.0.1`
+* open browser at http://127.0.0.1:8088/plot.html
 * select your log file in input field
 
 ## Technical Specifications MH-Z19
@@ -97,7 +97,8 @@ python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
 
 ## Credits
 
-Forked from https://github.com/alpacagh/MHZ14-CO2-Logger
+- Forked from https://github.com/alpacagh/MHZ14-CO2-Logger
+- Thanks to @matmunn for Python 2->3 upgrade.
 
 ## Licence
 
