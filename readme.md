@@ -27,7 +27,7 @@ Connected to /dev/tty.SLAB_USBtoUART
 2019-02-25 07:44:51 558 58
 ...
 ```
-3 fields separated by tab: timestamp, CO2 concentration (ppm), internal sensor temperature (fahrenheit)
+3 fields separated by tab: timestamp, CO2 concentration (ppm), *internal* sensor temperature (Celsius)
 
 Use stream redirection to save data series to file:
 

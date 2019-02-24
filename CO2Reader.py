@@ -85,7 +85,7 @@ class MHZ14Reader:
         if len(response) == 9:
             return {
                 "ppa": response[2] * 0xff + response[3],
-                "t": response[4],
+                "t": int((response[4]-32)*5/9), # Internal sensor temperature in Celsius
             }
         return None
 
