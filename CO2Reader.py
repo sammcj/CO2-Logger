@@ -8,10 +8,13 @@ defaultPort = '/dev/tty.SLAB_USBtoUART'
 class MHZ14Reader:
     """
     Simple sensor communication class.
-    No calibration method provided by default to avoid accidental sensor
-    bricking (calibrating to wrong levels)
+    Be _very_ careful using the zero (400ppm) calibration method providedto avoid accidental sensor misconfiguration!
+
+    https://www.google.com/#q=MH-Z14+datasheet+pdf
 
     # Possible commands
+
+
     # mhzCmdReadPPM[9] = [0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
     # mhzCmdCalibrateZero[9] = [0xFF, 0x01, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78] # Run in 400ppm or less for 20mins
     # mhzCmdABCEnable[9] = [0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00, 0xE6]
@@ -23,26 +26,24 @@ class MHZ14Reader:
     # mhzCmdMeasurementRange5000[9] = [0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x13, 0x88, 0xCB]
 
     # Run Zero Point (400ppm) calibration, run this for 20mins + in <400ppm Environment
-    # _requestSequence = [0xFF, 0x01, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78]
+    #_sensorCommand = [0xFF, 0x01, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78]
 
     # Enable ABC, run with --single
-    # _requestSequence = [0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00, 0xE6]
+    #_sensorCommand = [0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00, 0xE6]
 
     # Disable ABC, run with --single
-    # _requestSequence = [0xFF, 0x01, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x86]
+    # _sensorCommand = [0xFF, 0x01, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x86]
+
+    # Default operation, read Co2 levels
+    # _sensorCommand = [0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
     """
 
-    # Standard operation
-    _requestSequence = [0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79]
-    """
-    https://www.google.com/#q=MH-Z14+datasheet+pdf
-    """
-
-    def __init__(self, port, open_connection=True):
+    def __init__(self, port, _sensorCommand, open_connection=True):
         """
         :param string port: path to tty
         :param bool open_connection: should port be opened immediately
         """
+        self._sensorCommand = _sensorCommand
         self.port = port
         """TTY name"""
         self.link = None
@@ -72,7 +73,7 @@ class MHZ14Reader:
         """
         Send data request control sequence
         """
-        self.link.write(bytearray(self._requestSequence))
+        self.link.write(bytearray(self._sensorCommand))
 
     def get_status(self):
         """
@@ -97,19 +98,23 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Read data from MH-Z14 CO2 sensor.'
     )
-    parser.add_argument('tty', default=defaultPort, help='tty port to connect',
+    parser.add_argument('--tty', default=defaultPort, help='tty port to connect',
                         type=str, nargs='?')
-    parser.add_argument('timeout', default=10, help='timeout between requests',
+    parser.add_argument('--timeout', default=10, help='timeout between requests',
                         type=int, nargs='?')
+    parser.add_argument('--command', default='0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79',
+                        help='See readme, defaults to reading Co2 PPM', type=str, nargs='?')
     parser.add_argument('--single', action='store_true', help='single measure')
-    parser.add_argument('--quit', '-q', action='store_true', help='be quit')
+    parser.add_argument('--quit', '-q', action='store_true', help='Check sensor connectivity and quit')
     args = parser.parse_args()
     port = args.tty
     timeout = args.timeout
+    _sensorCommand = bytearray([int(x, 16) for x in args.command.split(', ')])
+
     if args.single:
         timeout = 0
 
-    conn = MHZ14Reader(port)
+    conn = MHZ14Reader(port, _sensorCommand)
     if not args.quit:
         sys.stderr.write("Connected to {}\n".format(conn.link.name))
     while True:

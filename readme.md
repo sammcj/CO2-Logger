@@ -20,33 +20,75 @@ Can be connected to computer using almost any USB-UART converter if voltage matc
 ### Querying
 
 ```
-$ python3 CO2Reader.py /dev/tty.SLAB_USBtoUART 2
+$ python3 CO2Reader.py --tty=/dev/tty.SLAB_USBtoUART --timeout=2
 Connected to /dev/tty.SLAB_USBtoUART
-2019-02-15 11:02:11	463	64
-2019-02-15 11:02:13	467	64
-2019-02-15 11:02:15	467	64
-2019-02-15 11:02:17	470	64
+2019-02-25 07:44:48 558 58
+2019-02-25 07:44:49 558 58
+2019-02-25 07:44:51 558 58
 ...
 ```
 3 fields separated by tab: timestamp, CO2 concentration (ppm), internal sensor temperature (fahrenheit)
- 
+
 Use stream redirection to save data series to file:
 
 ```shell
-touch example.log
-python3 CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
+touch co2.log
+python3 CO2Reader.py --tty=/dev/tty.SLAB_USBtoUART --timeout=2 >>co2.log
 ```
 
-#### Options
+### Options
 
-- `--single` perform a single measurement
+- `--tty` (optional) tty to connect to (default is `/dev/tty.SLAB_USBtoUART`)
+- `--single` (optional) perform a single measurement and exit
+- `--quit` (optional) connect to the sensor and quit immediately
+- `--timeout` (optional) time between requests (defaults to `10` seconds)
+- `--command` (optional) raw command to pass to the sensor - use carefully (default is to read Co2 levels)
+
+### Sensor Commands
+
+Raw commands can be passed to the Co2 sensor, these to be used with caution.
+
+Example:
+
+```
+python3 CO2Reader.py --tty=/dev/tty.SLAB_USBtoUART --timeout=1 --command='0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79'
+```
+
+#### Default operation (Reads Co2 levels)
+
+`0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79`
+
+#### Enable ABC
+
+`0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00, 0xE6`
+
+#### Disable ABC
+
+`0xFF, 0x01, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00, 0x86`
+
+#### Measurement Ranges
+
+(Note: Untested)
+
+- 1000 = `0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x03, 0xE8, 0x7B`
+- 2000 = `0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xD0, 0x8F`
+- 3000 = `0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x0B, 0xB8, 0xA3`
+- 5000 = `0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x13, 0x88, 0xCB`
+
+#### Run Zero Point (400ppm) calibration
+
+- Run this for 10mins + in 400ppm Environment
+
+WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
+
+`0xFF, 0x01, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78`
 
 ### Visualizing
 
-* install npm dependencies `npm install`
-* start server `python3 -m http.server 8088 --bind 127.0.0.1`
-* open browser at http://127.0.0.1:8088/plot.html
-* select your log file in input field
+1. Install npm dependencies `npm install`
+2. Start server `python3 -m http.server 8088 --bind 127.0.0.1`
+3. Open browser at http://127.0.0.1:8088/plot.html
+4. Select your log file in input field
 
 ## Technical Specifications MH-Z19
 
@@ -88,7 +130,9 @@ python3 CO2Reader.py /dev/tty.SLAB_USBtoUART 2 >>example.log
 
 ![mhz-19](https://user-images.githubusercontent.com/862951/52826018-38e23800-3113-11e9-92f3-18c99c902ae5.jpg)
 
-### Outdoor calibration
+### Calibration
+
+**Don't use this function unless you know what you are doing or you may incorrectly calibrate the sensor!**
 
 (Australia has an average of around 400-410PPM and Sensor zero point is 400PPM)
 
