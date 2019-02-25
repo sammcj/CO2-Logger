@@ -142,8 +142,10 @@ WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
 
 ## Credits
 
-- Forked from https://github.com/alpacagh/MHZ14-CO2-Logger
+- Inspiration taken from my old [AirQualityLogger project](https://github.com/sammcj/airqualitylogger)
 - Thanks to [@matmunn](https://github.com/matmunn) for Python 2->3 upgrade.
+- Originally forked from https://github.com/alpacagh/MHZ14-CO2-Logger
+
 
 ## Licence
 
