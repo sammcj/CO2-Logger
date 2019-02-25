@@ -11,7 +11,7 @@
   },
   "scripts": {
     "compile-js": "node_modules/.bin/babel js/buildGraph.js -o js/buildGraph-compiled.js -s true",
-    "monitor": "python CO2Reader.py /dev/tty.SLAB_USBtoUART 1 | tee -a data.log",
-    "start-server": "echo 'open http://127.0.0.1:8088/plot.html' && python -m SimpleHTTPServer 8088"
+    "monitor": "python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 | tee -a co2.log",
+    "start-server": "echo 'open http://127.0.0.1:8088/plot.html' && python3 -m http.server 8088 --bind 127.0.0.1"
   }
 }
