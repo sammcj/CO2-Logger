@@ -1,11 +1,9 @@
 {
-  "version": "1.0.4",
+  "version": "1.1.0",
   "dependencies": {
-    "jquery": "^3.3.1",
-    "jquery2": "^2.0.3-a",
-    "plotly": "^1.0.6",
-    "plotly.js": "^1.2.0",
-    "requirejs": "^2.0.0"
+    "plotly.js": "^1.7.0",
+    "jquery": "^2.2.2",
+    "requirejs": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
@@ -13,7 +11,7 @@
   },
   "scripts": {
     "compile-js": "node_modules/.bin/babel js/buildGraph.js -o js/buildGraph-compiled.js -s true",
-    "monitor": "python CO2Reader.py /dev/tty.SLAB_USBtoUART 2 | tee -a co2.log",
-    "start-server": "echo 'open http://127.0.0.1:8088/plot.html' && python3 -m http.server 8088 --bind 127.0.0.1"
+    "monitor": "python CO2Reader.py /dev/tty.SLAB_USBtoUART 1 | tee -a data.log",
+    "start-server": "echo 'open http://127.0.0.1:8088/plot.html' && python -m SimpleHTTPServer 8088"
   }
 }

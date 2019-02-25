@@ -87,7 +87,7 @@ WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
 ### Visualizing
 
 1. Install npm dependencies `npm install`
-2. Start server `python3 -m http.server 8088` (Note: Unless you have a firewall blocking it, the project directory will be accessable on your network!)
+2. Start server `python3 -m http.server 8088 --bind 127.0.0.1`
 3. Open browser at http://127.0.0.1:8088/plot.html
 4. Select your log file in input field
 
@@ -143,7 +143,7 @@ WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
 ## Credits
 
 - Forked from https://github.com/alpacagh/MHZ14-CO2-Logger
-- Thanks to @matmunn for Python 2->3 upgrade.
+- Thanks to [@matmunn](https://github.com/matmunn) for Python 2->3 upgrade.
 
 ## Licence
 
