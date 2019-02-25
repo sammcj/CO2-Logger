@@ -1,4 +1,4 @@
-# Example MH-Z14 / MH-Z19 CO2 sensor reader and visualiser
+# MH-Z19 CO2 sensor reader, logger and visualiser
 
 * Read data from UART(serial)-connected MH-Z14 or MH-Z19 sensor using python.
 * If you dare to install nodejs you can visualise the logged data (using html and plotly.js library).
