@@ -15,7 +15,8 @@ Can be connected to computer using almost any USB-UART converter if voltage matc
 
 - Python3
 - `pip3 install serial pyserial`
-- A USB -> Serial UART connector or similar
+- A USB -> Serial UART connector (Could also be used with Raspberry Pi, ESP8266, Arduino etc...)
+- [MH-Z19](https://www.winsen-sensor.com/d/files/PDF/Infrared%20Gas%20Sensor/NDIR%20CO2%20SENSOR/MH-Z19%20CO2%20Ver1.0.pdf) Co2 Sensor (Around $25AUD on eBay)
 
 ### Querying
 
