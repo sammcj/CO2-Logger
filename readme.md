@@ -87,7 +87,7 @@ WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
 ### Visualizing
 
 1. Install npm dependencies `npm install`
-2. Start server `python3 -m http.server 8088 --bind 127.0.0.1`
+2. Start server `python3 -m http.server 8088` (Note: Unless you have a firewall blocking it, the project directory will be accessable on your network!)
 3. Open browser at http://127.0.0.1:8088/plot.html
 4. Select your log file in input field
 
