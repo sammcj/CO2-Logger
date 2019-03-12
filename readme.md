@@ -1,6 +1,8 @@
 # MH-Z19 CO2 sensor reader, logger and visualiser
 
-* Read data from UART(serial)-connected MH-Z14 or MH-Z19 sensor using python.
+![plot](https://user-images.githubusercontent.com/862951/52826593-a98a5400-3115-11e9-868a-72a763b6d587.jpg)
+
+* Reads data from UART(serial)-connected MH-Z19 (or MH-Z14) sensor using python 3.
 * If you dare to install nodejs you can visualise the logged data (using html and plotly.js library).
 
 ## Usage
@@ -122,14 +124,13 @@ WARNING: DO NOT RUN THIS UNLESS YOU KNOW WHAT YOU ARE DOING!
 
 ## Photos
 
+### MH-Z19 Sensors
 
-### Example plotted data
-
-![plot](https://user-images.githubusercontent.com/862951/52826593-a98a5400-3115-11e9-868a-72a763b6d587.jpg)
+![41byp-zvj1l _sx342_](https://user-images.githubusercontent.com/862951/53372770-d48f6600-39a7-11e9-8c05-9aca871de7d0.jpg) ![350px-mhz19](https://user-images.githubusercontent.com/862951/53372771-d527fc80-39a7-11e9-80e6-17ade8eb4b19.jpg)
 
 ### Connected to a USB -> UART adapter
 
-![mhz-19](https://user-images.githubusercontent.com/862951/52826018-38e23800-3113-11e9-92f3-18c99c902ae5.jpg)
+![mh-z19](https://user-images.githubusercontent.com/862951/52826018-38e23800-3113-11e9-92f3-18c99c902ae5.jpg)
 
 ### Calibration
 
