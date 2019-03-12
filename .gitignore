@@ -4,3 +4,4 @@ node_modules/
 *.txt
 *.pyc
 *.log
+.DS_Store
