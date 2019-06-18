@@ -1,8 +1,10 @@
 {
   "version": "1.1.1",
   "dependencies": {
-    "jquery": "^3.3.1",
-    "plotly.js": "^1.44.4",
+    "acorn": "^6.1.1",
+    "fsevents": "^2.0.7",
+    "jquery": "^3.4.1",
+    "plotly.js": "^1.48.3",
     "requirejs": "^2.3.6"
   },
   "devDependencies": {
